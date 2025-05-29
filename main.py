@@ -99,13 +99,19 @@ def get_instagram_profile(username: str, request: Request):
 def proxy_image(url: str):
     try:
         headers = {
-            "User-Agent": "Mozilla/5.0"
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/122.0.0.0 Safari/537.36"
+            )
         }
         resp = requests.get(url, headers=headers)
         return Response(content=resp.content, media_type=resp.headers.get("Content-Type", "image/jpeg"))
     except Exception as e:
         print(f" Error proxying image: {e}")
         raise HTTPException(status_code=500, detail="Image fetch failed")
+
+
 
 # ------------------------------
 # 🏠 Serve index.html at root "/"
