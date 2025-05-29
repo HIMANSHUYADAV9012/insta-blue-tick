@@ -41,12 +41,15 @@ if not os.path.exists(SESSION_DIR):
 for file in os.listdir(SESSION_DIR):
     if file.endswith(".json"):
         try:
-            loader = instaloader.Instaloader()
+            loader = instaloader.Instaloader(
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+            )
             loader.load_session_from_file(None, os.path.join(SESSION_DIR, file))
             INSTALOADER_ACCOUNTS.append(loader)
             print(f"  Loaded session: {file}")
         except Exception as e:
             print(f"  Failed to load session {file}: {e}")
+
 
 if not INSTALOADER_ACCOUNTS:
     raise Exception(" No valid Instagram sessions found in /sessions folder.")
