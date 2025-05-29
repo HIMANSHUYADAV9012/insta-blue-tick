@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+instaloader
+slowapi
+cachetools
+requests
