@@ -43,6 +43,7 @@ for file in os.listdir(SESSION_DIR):
         try:
             loader = instaloader.Instaloader(
                 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+
             )
             loader.load_session_from_file(None, os.path.join(SESSION_DIR, file))
             INSTALOADER_ACCOUNTS.append(loader)
@@ -102,10 +103,9 @@ def get_instagram_profile(username: str, request: Request):
 def proxy_image(url: str):
     try:
         headers = {
-            "User-Agent": (
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) "
-                "Chrome/122.0.0.0 Safari/537.36"
+            User-Agent: (
+               "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+
             )
         }
         resp = requests.get(url, headers=headers)
