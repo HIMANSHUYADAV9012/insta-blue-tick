@@ -30,30 +30,45 @@ app.add_middleware(
 )
 
 # ------------------------------
-# 🔐 Load all session files
+# 🔐 Load or create session files
 # ------------------------------
 SESSION_DIR = "./sessions"
 INSTALOADER_ACCOUNTS = []
 
+ACCOUNTS = [
+    {"username": "python_dev1000", "password": "6397257222"},
+    {"username": "ajf7382025", "password": "9012449011"},
+]
+
 if not os.path.exists(SESSION_DIR):
     os.makedirs(SESSION_DIR)
 
-for file in os.listdir(SESSION_DIR):
-    if file.endswith(".json"):
-        try:
-            loader = instaloader.Instaloader(
-                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+for acc in ACCOUNTS:
+    username = acc["username"]
+    password = acc["password"]
+    session_path = os.path.join(SESSION_DIR, f"{username}_session.json")
 
-            )
-            loader.load_session_from_file(None, os.path.join(SESSION_DIR, file))
-            INSTALOADER_ACCOUNTS.append(loader)
-            print(f"  Loaded session: {file}")
-        except Exception as e:
-            print(f"  Failed to load session {file}: {e}")
+    loader = instaloader.Instaloader(
+        user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+    )
 
+    try:
+        if os.path.exists(session_path):
+            loader.load_session_from_file(username, session_path)
+            print(f"[+] Loaded session: {username}")
+        else:
+            print(f"[*] Logging in: {username}...")
+            loader.login(username, password)
+            loader.save_session_to_file(session_path)
+            print(f"[+] New session saved: {username}")
+
+        INSTALOADER_ACCOUNTS.append(loader)
+
+    except Exception as e:
+        print(f"[!] Failed session for {username}: {e}")
 
 if not INSTALOADER_ACCOUNTS:
-    raise Exception(" No valid Instagram sessions found in /sessions folder.")
+    raise Exception("No valid Instagram sessions found or created.")
 
 # ------------------------------
 # 🧠 Simple in-memory cache (10 mins)
@@ -68,11 +83,9 @@ cache = TTLCache(maxsize=500, ttl=600)
 def get_instagram_profile(username: str, request: Request):
     username = username.strip().lower()
 
-    # 🧠 Return from cache if available
     if username in cache:
         return {"success": True, "data": cache[username]}
 
-    # 🔄 Pick random logged-in session
     loader = random.choice(INSTALOADER_ACCOUNTS)
 
     try:
@@ -93,7 +106,7 @@ def get_instagram_profile(username: str, request: Request):
     except instaloader.exceptions.ConnectionException:
         raise HTTPException(status_code=503, detail="Instagram connection failed. Try again later.")
     except Exception as e:
-        print(f" Error while fetching profile: {e}")
+        print(f"Error while fetching profile: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
 
 # ------------------------------
@@ -103,18 +116,13 @@ def get_instagram_profile(username: str, request: Request):
 def proxy_image(url: str):
     try:
         headers = {
-            User-Agent: (
-               "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
-
-            )
+            "User-Agent": "Mozilla/5.0"
         }
         resp = requests.get(url, headers=headers)
         return Response(content=resp.content, media_type=resp.headers.get("Content-Type", "image/jpeg"))
     except Exception as e:
-        print(f" Error proxying image: {e}")
+        print(f"Error proxying image: {e}")
         raise HTTPException(status_code=500, detail="Image fetch failed")
-
-
 
 # ------------------------------
 # 🏠 Serve index.html at root "/"
@@ -123,9 +131,4 @@ def proxy_image(url: str):
 def serve_index():
     return FileResponse("index.html")
 
-# ------------------------------
-# ▶️ Run app
-# ------------------------------
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+
