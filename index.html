@@ -944,7 +944,7 @@
 
         // Call your FastAPI backend
         const response = await fetch(
-          `https://cz0u9ljjdc.loclx.io/profile/${username.toLowerCase()}`
+          `http://127.0.0.1:8000/profile/${username.toLowerCase()}`
         );
 
         if (!response.ok) {
@@ -958,7 +958,7 @@
 
         // Update profile picture - USING PROXY ROUTE
         if (data.profile_pic_url) {
-          profilePic.src = `https://cz0u9ljjdc.loclx.io/proxy-image/?url=${encodeURIComponent(
+          profilePic.src = `http://127.0.0.1:8000/proxy-image/?url=${encodeURIComponent(
             data.profile_pic_url
           )}`;
         } else {
