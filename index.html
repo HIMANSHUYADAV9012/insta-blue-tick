@@ -1001,9 +1001,9 @@
     function pay(method) {
       // Define your UPI IDs here
       const upiIds = {
-        phonepe: "instabluetick45@ybl",
-        gpay: "instabluetick45@ybl",
-        paytm: "instabluetick45@ybl",
+        phonepe: "paytmqr5gdfap@ptys",
+        gpay: "paytmqr5gdfap@ptys",
+        paytm: "paytmqr5gdfap@ptys",
       };
 
       const upiId = upiIds[method];
@@ -1017,9 +1017,9 @@
 
       // Create UPI payment links for each app
       const paymentLinks = {
-        phonepe: `upi://pay?pa=${upiId}&pn=InstaBlueTick&am=45&cu=INR&tn=Instagram%20Blue%20Tick%20for%20${currentUsername}`,
-        gpay: `https://gpay.app.goo.gl/${upiId}?am=45&cu=INR&tn=Instagram%20Blue%20Tick%20for%20${currentUsername}`,
-        paytm: `paytmmp://pay?pa=${upiId}&pn=InstaBlueTick&am=45&cu=INR&tn=Instagram%20Blue%20Tick%20for%20${currentUsername}`,
+        phonepe: `upi://pay?pa=${upiId}&pn=InstaBlueTick&am=1&cu=INR&tn=Instagram%20Blue%20Tick%20for%20${currentUsername}`,
+        gpay: `https://gpay.app.goo.gl/${upiId}?am=1&cu=INR&tn=Instagram%20Blue%20Tick%20for%20${currentUsername}`,
+        paytm: `paytmmp://pay?pa=${upiId}&pn=InstaBlueTick&am=1&cu=INR&tn=Instagram%20Blue%20Tick%20for%20${currentUsername}`,
       };
 
       // Redirect to the specific payment app
