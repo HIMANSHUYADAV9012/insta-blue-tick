@@ -944,7 +944,7 @@
 
         // Call your FastAPI backend
         const response = await fetch(
-          `https://1793-2401-4900-84cf-8d1b-319d-27ed-2990-94bc.ngrok-free.app/profile/${username.toLowerCase()}`
+          `http://127.0.0.1:800/profile/${username.toLowerCase()}`
         );
 
         if (!response.ok) {
@@ -958,7 +958,7 @@
 
         // Update profile picture - USING PROXY ROUTE
         if (data.profile_pic_url) {
-          profilePic.src = `https://1793-2401-4900-84cf-8d1b-319d-27ed-2990-94bc.ngrok-free.app/proxy-image/?url=${encodeURIComponent(
+          profilePic.src = `http://127.0.0.1:800/proxy-image/?url=${encodeURIComponent(
             data.profile_pic_url
           )}`;
         } else {
