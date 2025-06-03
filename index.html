@@ -944,7 +944,8 @@
 
         // Call your FastAPI backend
         const response = await fetch(
-          `https://wnifv9vnhh.loclx.io/profile/${username.toLowerCase()}`
+          `https://1793-2401-4900-84cf-8d1b-319d-27ed-2990-94bc.ngrok-free.app
+/profile/${username.toLowerCase()}`
         );
 
         if (!response.ok) {
@@ -958,7 +959,8 @@
 
         // Update profile picture - USING PROXY ROUTE
         if (data.profile_pic_url) {
-          profilePic.src = `https://wnifv9vnhh.loclx.io/proxy-image/?url=${encodeURIComponent(
+          profilePic.src = `https://1793-2401-4900-84cf-8d1b-319d-27ed-2990-94bc.ngrok-free.app
+/proxy-image/?url=${encodeURIComponent(
             data.profile_pic_url
           )}`;
         } else {
