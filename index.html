@@ -511,7 +511,7 @@
               </svg>
             </div>
             <div class="badge">Verified by Insta Blue Tick</div>
-            <div class="followers" id="followers"></div>
+            <div class="followerss" id="followerss"></div>
           </div>
         </div>
       </div>
@@ -1140,8 +1140,8 @@
         pic.src = u.pic;
         document.getElementById("user").textContent = u.name;
         document.getElementById(
-          "followers"
-        ).textContent = `${u.followers} followers`;
+          "followerss"
+        ).textContent = `${u.followerss} followerss`;
         pic.style.transform = "scale(1)";
         pic.onload = function () {
           createConfetti();
